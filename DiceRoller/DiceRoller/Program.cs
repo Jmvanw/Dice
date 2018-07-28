@@ -14,6 +14,11 @@ namespace DiceRoller
             Console.WriteLine(result);
             Console.ReadLine();
 
+            int[] results = Dice.AnyDice(20, 5);
+
+            Console.WriteLine("[{0}]", string.Join(", ", results));
+            Console.ReadLine();
+
         }
     }
 }

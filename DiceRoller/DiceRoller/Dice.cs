@@ -50,6 +50,19 @@ namespace DiceRoller
             return result;
         }
 
+        public static int[] AnyDice(int size, int times)
+        {
+            int[] results = new int[times];
+
+            Random roll = new Random();
+            for (int i=0; i < results.Length; i++)
+            {
+                results[i] = roll.Next(1, size);
+            }
+            return results;
+        }
+
+
 
     }
 }
