@@ -13,12 +13,14 @@ namespace DiceRoller
             //int result = Dice.D20();
             //Console.WriteLine(result);
             //Console.ReadLine();
-
+            Start:
             Console.WriteLine("Input die size");
             int size = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Input number of rolls");
             int times = Convert.ToInt32(Console.ReadLine());
-            int[] results = Dice.AnyDice(size, times);
+            Console.WriteLine("Modifiers?");
+            int mod = Convert.ToInt32(Console.ReadLine());
+            int[] results = Dice.AnyDice(size, times, mod);
 
             Console.WriteLine("[{0}]", string.Join(", ", results));
             Console.ReadLine();
@@ -38,6 +40,7 @@ namespace DiceRoller
             {
                 Console.WriteLine("value - total");
                 var outval = from rolls in results
+                             orderby rolls descending
                              group rolls by rolls into rollGroup
                              select new { rollGroup, rollCount = rollGroup.Count() };
                 foreach (var item in outval)
@@ -49,6 +52,8 @@ namespace DiceRoller
 
 
             Console.ReadLine();
+
+            goto Start;
         }
     }
 }
