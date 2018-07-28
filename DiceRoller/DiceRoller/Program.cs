@@ -10,11 +10,15 @@ namespace DiceRoller
     {
         static void Main(string[] args)
         {
-            int result = Dice.D20();
-            Console.WriteLine(result);
-            Console.ReadLine();
+            //int result = Dice.D20();
+            //Console.WriteLine(result);
+            //Console.ReadLine();
 
-            int[] results = Dice.AnyDice(20, 5);
+            Console.WriteLine("Input die size");
+            int size = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Input number of rolls");
+            int times = Convert.ToInt32(Console.ReadLine());
+            int[] results = Dice.AnyDice(size, times);
 
             Console.WriteLine("[{0}]", string.Join(", ", results));
             Console.ReadLine();
