@@ -22,7 +22,33 @@ namespace DiceRoller
 
             Console.WriteLine("[{0}]", string.Join(", ", results));
             Console.ReadLine();
+            Console.WriteLine("Average or Sum or normal)?");
+            string outputType = Console.ReadLine();
+            if (outputType == "Average")
+            {
+                double resultsAverage = results.Average();
+                Console.WriteLine(resultsAverage);
+            }
+            else if (outputType == "Sum")
+            {
+                int resultsSum = results.Sum();
+                Console.WriteLine(resultsSum);
+            }
+            else
+            {
+                Console.WriteLine("value - total");
+                var outval = from rolls in results
+                             group rolls by rolls into rollGroup
+                             select new { rollGroup, rollCount = rollGroup.Count() };
+                foreach (var item in outval)
+                {
+                    Console.WriteLine(item.rollGroup.Key + " - " + item.rollCount);
+                }
+            }
 
+
+
+            Console.ReadLine();
         }
     }
 }

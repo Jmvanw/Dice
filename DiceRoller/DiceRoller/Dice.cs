@@ -57,7 +57,7 @@ namespace DiceRoller
             Random roll = new Random();
             for (int i=0; i < results.Length; i++)
             {
-                results[i] = roll.Next(1, size);
+                results[i] = roll.Next(1, size+1);
             }
             return results;
         }
