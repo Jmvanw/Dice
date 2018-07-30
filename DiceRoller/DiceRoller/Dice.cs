@@ -50,7 +50,7 @@ namespace DiceRoller
         //    return result;
         //}
 
-        public static int[] AnyDice(int size, int times,int mod)
+        public static int[] RollDice(int size, int times,int mod)
         {
             int[] results = new int[times];
 
