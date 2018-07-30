@@ -8,6 +8,24 @@ namespace DiceRoller
 {
     class Dice
     {
+        public static int[] RollDice(int size, int times,int mod)
+        {
+            int[] results = new int[times];
+
+            Random roll = new Random();
+            for (int i=0; i < results.Length; i++)
+            {
+                results[i] = roll.Next(1, size+1) + mod;
+            }
+            return results;
+        }
+
+
+
+
+
+
+
         //public static int D4()
         //{
         //    Random roll = new Random();
@@ -49,20 +67,5 @@ namespace DiceRoller
         //    int result = roll.Next(1, 21);
         //    return result;
         //}
-
-        public static int[] RollDice(int size, int times,int mod)
-        {
-            int[] results = new int[times];
-
-            Random roll = new Random();
-            for (int i=0; i < results.Length; i++)
-            {
-                results[i] = roll.Next(1, size+1) + mod;
-            }
-            return results;
-        }
-
-
-
     }
 }
