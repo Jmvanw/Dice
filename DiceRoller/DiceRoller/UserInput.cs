@@ -8,11 +8,6 @@ namespace DiceRoller
 {
     public class UserInput
     {
-        public static void DisplayResults(int[] results)
-        {
-            Console.WriteLine("[{0}]", string.Join(", ", results));
-            Console.ReadLine();
-        }
 
         public int GetSize()
         {
@@ -30,12 +25,58 @@ namespace DiceRoller
             return times;
         }
 
+        public int[] GetModifierNum(int[] masterList)
+        {
+            Console.WriteLine("how many modifiers?");
+            string m1 = Console.ReadLine();
+            if (int.TryParse(m1, out int modNum)) { modNum = Convert.ToInt32(m1); }
+            var groupCount = 4;
+            var minGroupSize = masterList.Length / groupCount;
+            var extraItems = masterList.Length % groupCount;
+
+            var groupedNames = new List<List<int>>();
+
+            for (int i = 0; i < modNum; i++)
+            {
+                groupedNames.Add(masterList.Skip(i * minGroupSize).Take(minGroupSize).ToList());
+
+                if (i < extraItems)
+                {
+                    groupedNames[i].Add(masterList[masterList.Length - 1 - i]);
+                }
+            }
+
+            Console.WriteLine("Here are the groups:");
+            for (int index = 0; index < groupedNames.Count; index++)
+            {
+                Console.WriteLine($"#{index + 1}: {string.Join(", ", groupedNames[index])}");
+            }
+
+            Console.Write("\nDone!\nPress any key to exit...");
+            Console.ReadKey();
+
+            return masterList;
+
+            //var splitResults = results.Split(modNum);
+            //for (int i=0; i <= modNum; i++)
+            //{
+            //    for (int j = 0; j < 5; j++)
+            //    {
+            //        Console.WriteLine("a[{0},{1}] = {2}", i, j, splitResults[i,j]);
+            //    } 
+            //}
+            //Console.WriteLine(splitResults);
+            //Console.WriteLine("splitResults");
+            //return results;
+        }
+
         public int GetModifiers()
         {
-            Console.WriteLine("Modifiers?");
-            string m = Console.ReadLine();
-            if (int.TryParse(m, out int mod)) { mod = Convert.ToInt32(m); }
-            return mod;
+            Console.WriteLine("What are your modifiers?");
+
+            string m1 = Console.ReadLine();
+            if (int.TryParse(m1, out int mod1)) { mod1 = Convert.ToInt32(m1); }
+            return mod1;
         }
 
         public double GetAverage(int[] results)
@@ -58,14 +99,14 @@ namespace DiceRoller
         public void BreakItUp(int[] results)
         {
 
-            Console.WriteLine("value - total");
+            Console.WriteLine("{0,5}  -  {1,5}", "value", "total");
             var outval = from rolls in results
                              //orderby rolls descending
                          group rolls by rolls into rollGroup
                          select new { rollGroup, rollCount = rollGroup.Count() };
             foreach (var item in outval)
             {
-                Console.WriteLine("{0} - {1}", item.rollGroup.Key, item.rollCount);
+                Console.WriteLine("{0,3}    -  {1,3}", item.rollGroup.Key, item.rollCount);
             }
 
 
@@ -73,14 +114,14 @@ namespace DiceRoller
             string orderReq = Console.ReadLine();
             if (orderReq == "y")
             {
-                Console.WriteLine("value - total");
-                var outvalRolls = results.OrderByDescending(n => n).GroupBy(n => n);//lambdas are supposed to be more clear?
+                Console.WriteLine("{0,5}  -  {1,5}", "value", "total");
+                var outvalRolls = results.OrderByDescending(n => n).GroupBy(n => n);//lambdas are supposed to be more clear? 
                 foreach (var number in outvalRolls)
-                    Console.WriteLine("{0} - {1}", number.Key, number.Count());
+                    Console.WriteLine("{0,3}    -  {1,3}", number.Key, number.Count());
             }
             else
             {
-
+                //not sure what I'm putting here
             }
         }
     }
