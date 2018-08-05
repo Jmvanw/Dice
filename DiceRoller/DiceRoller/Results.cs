@@ -14,12 +14,12 @@ namespace DiceRoller
             Console.ReadLine();
         }
 
-        //public static IEnumerable<IEnumerable<T>> Split<T>(this T[] array, int modNum)
-        //{
-        //    for (var i = 0; i < (float)array.Length / modNum; i++)
-        //    {
-        //        yield return array.Skip(i * modNum).Take(modNum);
-        //    }
-        //}
+        public static IEnumerable<IEnumerable<T>> Split<T>(this T[] array, int modNum)
+        {
+            for (var i = 0; i < (float)array.Length / modNum; i++)
+            {
+                yield return array.Skip(i * modNum).Take(modNum);
+            }
+        }
     }
 }

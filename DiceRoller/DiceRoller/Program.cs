@@ -18,14 +18,16 @@ namespace DiceRoller
 
                 int size = user1.GetSize();
                 int times = user1.GetNumberOfRolls();
-                
-                int mod = user1.GetModifiers();
-                
+                int numberOfModifiers = user1.GetNumberofModifiers();
+                int[] modifierArray = user1.GetModifiers(numberOfModifiers);
 
-                int[] results = Dice.RollDice(size, times, mod);
-                int[] modNum = user1.GetModifierNum(results);
-                Console.WriteLine("that was the groups");
-                Results.DisplayResults(results);
+                //int[] results = Dice.RollDice(size, times, mod);
+                int[] results = Dice.RollDice(size, times);
+                int[] splitResults = user1.SplitByModifierNumber(results, numberOfModifiers);
+                int[] moddedResults = user1.ApplyModifierArray(splitResults, modifierArray, numberOfModifiers);
+                //int[] modNum = user1.GetModifierNum(results);
+                Console.WriteLine("adding modifiers to results");
+                Results.DisplayResults(moddedResults);
 
                 Console.WriteLine("Type 'Average' or 'Sum' or click a button for the count of your roll results.");
                 string outputType = Console.ReadLine();

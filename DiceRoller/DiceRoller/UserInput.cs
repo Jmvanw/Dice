@@ -25,14 +25,34 @@ namespace DiceRoller
             return times;
         }
 
-        public int[] GetModifierNum(int[] masterList)
+        public int GetNumberofModifiers()
         {
             Console.WriteLine("how many modifiers?");
             string m1 = Console.ReadLine();
             if (int.TryParse(m1, out int modNum)) { modNum = Convert.ToInt32(m1); }
-            var groupCount = 4;
-            var minGroupSize = masterList.Length / groupCount;
-            var extraItems = masterList.Length % groupCount;
+            return modNum;
+        }
+
+        public int[] GetModifiers(int modNum)
+        {
+            Console.WriteLine("What are your " + modNum + " modifiers?");
+
+            int[] modifierArray = new int[modNum];
+            for (int i = 0; i < modifierArray.Length; i++)
+            {
+                Console.WriteLine("Modifier {0}:", i);
+                string m1 = Console.ReadLine();
+                if (int.TryParse(m1, out int modifierToAdd)) { modNum = Convert.ToInt32(m1); }
+                modifierArray[i] = modifierToAdd;
+            }
+            return modifierArray;
+        }
+
+        public int[] SplitByModifierNumber(int[] masterList, int modNum)
+        {
+            var minGroupSize = masterList.Length / modNum;
+            var extraItems = masterList.Length % modNum;
+
 
             var groupedNames = new List<List<int>>();
 
@@ -52,10 +72,15 @@ namespace DiceRoller
                 Console.WriteLine($"#{index + 1}: {string.Join(", ", groupedNames[index])}");
             }
 
-            Console.Write("\nDone!\nPress any key to exit...");
             Console.ReadKey();
-
+            int[][] groupedNameArray = groupedNames.Select(a => a.ToArray()).ToArray();
+            Console.WriteLine("Here is the groupedNameArray");
+            for (int i = 0; i< groupedNameArray.Length; i++)
+            {
+                Console.WriteLine(groupedNameArray[i][0]);
+            }
             return masterList;
+            //return groupedNameArray;
 
             //var splitResults = results.Split(modNum);
             //for (int i=0; i <= modNum; i++)
@@ -69,14 +94,18 @@ namespace DiceRoller
             //Console.WriteLine("splitResults");
             //return results;
         }
+    
 
-        public int GetModifiers()
+        public int[] ApplyModifierArray(int[] splitResults, int[] modifierArray, int numberOfModifiers)
         {
-            Console.WriteLine("What are your modifiers?");
-
-            string m1 = Console.ReadLine();
-            if (int.TryParse(m1, out int mod1)) { mod1 = Convert.ToInt32(m1); }
-            return mod1;
+            
+            int[] moddedResults = new int[numberOfModifiers];
+            for (int i=0,j=0; i < modifierArray.Length; i++, j++)
+            {
+                moddedResults[i] = splitResults[i] + modifierArray[j];
+            }
+            
+            return moddedResults;
         }
 
         public double GetAverage(int[] results)
