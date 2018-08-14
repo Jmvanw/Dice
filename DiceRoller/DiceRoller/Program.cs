@@ -16,29 +16,69 @@ namespace DiceRoller
             {
                 UserInput user1 = new UserInput();
 
+
                 int size = user1.GetSize();
                 int times = user1.GetNumberOfRolls();
+                int[] results = new int[times];
                 int numberOfModifiers = user1.GetNumberofModifiers();
-                int[] modifierArray = user1.GetModifiers(numberOfModifiers);
-
-                //int[] results = Dice.RollDice(size, times, mod);
-                int[] results = Dice.RollDice(size, times);
-                int[] splitResults = user1.SplitByModifierNumber(results, numberOfModifiers);
-                int[] moddedResults = user1.ApplyModifierArray(splitResults, modifierArray, numberOfModifiers);
-                //int[] modNum = user1.GetModifierNum(results);
-                Console.WriteLine("adding modifiers to results");
-                Results.DisplayResults(moddedResults);
-
-                Console.WriteLine("Type 'Average' or 'Sum' or click a button for the count of your roll results.");
-                string outputType = Console.ReadLine();
-                if (outputType == "Average")
+                if (numberOfModifiers > 1)
                 {
-                    double resultsAverage = user1.GetAverage(results);
-                    Console.WriteLine(resultsAverage);
+
+                    int[] modifierArray = user1.GetModifiers(numberOfModifiers);
+                    //int[] results = Dice.RollDice(size, times, mod);
+                    results = Dice.RollDice(size, times);
+                    int[][] splitResults = user1.SplitByModifierNumber(results, numberOfModifiers);
+                    Console.WriteLine("SplitResults =");
+                    Results.DisplayResults(splitResults);
+                    //int[] moddedResults = user1.ApplyModifierArray(splitResults, modifierArray, numberOfModifiers);
+                    //List<object> moddedResultsList = moddedResults.Cast<Object>().ToList();
+                    int[] moddedResults = user1.ApplyModifierArray(splitResults, modifierArray[0], modifierArray[1]);
+
+                    if (modifierArray.Length > 4)
+                    {
+                        moddedResults = user1.ApplyModifierArray(splitResults, modifierArray[0], modifierArray[1], modifierArray[2], modifierArray[3], modifierArray[4]);
+                    }
+                    else if (modifierArray.Length > 3)
+                    {
+                        moddedResults = user1.ApplyModifierArray(splitResults, modifierArray[0], modifierArray[1], modifierArray[2], modifierArray[3]);
+                    }
+                    else if (modifierArray.Length > 2)
+                    {
+                        moddedResults = user1.ApplyModifierArray(splitResults, modifierArray[0], modifierArray[1], modifierArray[2]);
+                    }
+
+                    //if (numberOfModifiers == 2)
+                    //{
+                    //    int ModifierA = modifierArray[0];
+                    //    int ModifierB = modifierArray[1];
+
+                    //    int[] moddedResults = new int[2];
+                    //    moddedResults = user1.Apply2ModifierArray(splitResults, ModifierA, ModifierB);
+                    //}
+
+                    //int[] modNum = user1.GetModifierNum(results);
+                    Console.WriteLine("adding modifiers to results");
+                    Results.DisplayResults(moddedResults);
+                    results = moddedResults;
                 }
-                else if (outputType == "Sum")
+                else if (numberOfModifiers == 1)
                 {
-                    int targetResults = user1.GetSum(results);
+                    int mod = user1.GetModifiers();
+                    results = Dice.RollDice(size, mod, times);
+
+                }
+                else
+                {
+                    results = Dice.RollDice(size, times);
+                }
+
+                user1.BreakItUp(results);
+
+                Console.WriteLine("Type 'y' to divide your sum evenly between targets");
+                string outputType = Console.ReadLine();
+                if (outputType == "y")
+                {
+                    int targetResults = user1.DivideSum(results);
                     Console.WriteLine(targetResults);
                 }
                 else
